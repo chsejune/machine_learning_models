@@ -19,7 +19,7 @@ Dropout과 ReLU 적용
 """
 # data augmentation 을 Keras 에서 제공하는 ImageDataGenerator 를 사용하는 코드가 포함되어 있다.
 # 주석처리 되어 있지만 필요시 기존에 학습된 모델 weight를 불러들일 수 있는 코드가 포함되어 있다.
-
+# 학습 완료된 모델을 새로운 데이터셋을 넣어 분류 정확도를 측정해 보는 코드도 포함 되어 있다.
 
 
 ## import library
@@ -148,3 +148,10 @@ history = model.fit_generator(data_aug.flow(train_x, train_y, batch_size=batch_s
 
 ## 판다스를 이용하여 모델이 학습 완료된 이후, history 변수에 저장된 수치 기록들을 csv 파일로 저장 가능하다. (정확도, loss 등)
 pandas.DataFrame(history.history).to_csv("results2/model_{}.csv".format(time_stamp))
+
+
+## 학습 완료된 모델을 데이터셋을 흘려보내 정확도를 평가해 본다.
+# predict = model.predict_classes(img_x, verbose=2) # 실제 데이터 하나하나를 모델이 예측한 결과 값을 출력해 준다.
+model.evaluate(test_x, test_y, verbose=3) # 데이터셋에 대한 모델이 예측한 정확도를 출력해준다. (컴파일시 matrics 파라미터에 설정했던 수치들을 모두 보여준다.)
+model.evaluate(train_x, train_y, verbose=3) # (X, Y, 정보출력레벨)
+model.evaluate(val_x, val_y, verbose=3)
