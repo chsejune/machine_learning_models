@@ -24,7 +24,6 @@ Dropout과 ReLU 적용
 
 ## import library
 import keras
-# from keras.datasets import
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
