@@ -105,10 +105,15 @@ lr = 0.0001
 opt = keras.optimizers.rmsprop(lr=lr, decay=1e-6)
 
 
+# 기존에 학습되어 있던 모델 weight를 학습 초기값으로 사용하고 싶을 경우 (또는 기존 학습 모델의 성능을 평가하고 싶을 경우 사용)
+# model.load_weights("results2/model_20170611_1602_epoch0002_valL_0.39835_valA_0.90625.hdf5") #[0.51194879445400865, 0.86813188123179008]
+
+
 # Let's train the model using RMSprop
 model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 # loss function은 다중 분류 모델이기 때문에 'categorical_crossentropy'를 사용하였다.
 # metrics 파라미터에는 'accuracy', ... 등을 전달하여 기록하고자 하는 수치를 지정할 수 있다.
+
 
 
 ## best model 학습 과정 중에 저장
@@ -166,9 +171,6 @@ data_aug = ImageDataGenerator(featurewise_center=False, #Boolean. Set input mean
     #                         preprocessing_function=None,
     #                         data_format="channels_last")
 
-
-
-# model.load_weights("results2/model_20170611_1602_epoch0002_valL_0.39835_valA_0.90625.hdf5") #[0.51194879445400865, 0.86813188123179008]
 
 
 ## 설계된 모델을 학습한다. Data Augmentation이 자동 수행되어 학습을 진행한다.
