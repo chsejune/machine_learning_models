@@ -112,6 +112,11 @@ checkpoint = ModelCheckpoint(model_save_path, monitor="val_acc", verbose=1, save
 # 웨이트만 저장할 경우, 모델 형태를 별도로 코드로 다시 설계해 줘야 한다. 대신 모델을 모두 저장하는 것 보다 파일 용량이 절약된다.
 
 
+## Image Data Generator 를 사용하지 않을 경우 아래 fit 함수를 이용하여 학습을 시작하면 된다.
+# model.fit(img_x, img_y_cat, batch_size=batch_size, epochs=epochs, validation_split=0.2, shuffle=True, verbose=2, callbacks=[checkpoint])
+# callbacks: list of keras.callbacks.Callback instances. List of callbacks to apply during training. See callbacks in keras.io
+
+
 # This will do preprocessing and realtime data augmentation:
 data_aug = ImageDataGenerator(featurewise_center=False,
                             samplewise_center=False,
