@@ -49,6 +49,11 @@ epochs = 5000 # 학습 반복 회수
 # import data (numpy 형태로 저장되어 있는 이미지 데이터셋 불러오기)
 img_x = np.load("datasets/resized_img_180x120_X.npy")
 img_y = np.load("datasets/resized_img_180x120_Y.npy")
+
+# img_x 의 이미지가 greyscale image 일 경우 차원수를 하나 늘려줘야 한다.
+# 이미지 매트릭스 형태 변경 (28, 28) --> (28, 28, 1)
+img_x = img_x.reshape(list(img_x.shape)+[1])
+
 # img_y 의 경우 class label인 0, 1, 2, ... 형태로 되어 있음
 # CNN을 keras 를 이용하여 학습시, one-hot encoding이 되어야 함
 # 예를 들어, 0,1,2 class label이 있을 때, 0은 [1,0,0]으로 변환, 1은 [0,1,0]으로 변환 ...
