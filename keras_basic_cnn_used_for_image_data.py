@@ -35,6 +35,7 @@ import tensorflow as tf
 import time
 import pandas
 from keras.backend.tensorflow_backend import set_session
+import keras.backend as K
 
 ## 파라미터 변수 설정
 ### file 저장 시 file 이름에 대한 time stamp 반영하기 위해 설정해줌
@@ -118,24 +119,47 @@ checkpoint = ModelCheckpoint(model_save_path, monitor="val_acc", verbose=1, save
 
 
 # This will do preprocessing and realtime data augmentation:
-data_aug = ImageDataGenerator(featurewise_center=False,
-                            samplewise_center=False,
-                            featurewise_std_normalization=False,
-                            samplewise_std_normalization=False,
-                            zca_whitening=False,
-                            rotation_range=180,
-                            width_shift_range=0.,
-                            height_shift_range=0.,
-                            shear_range=0.,
-                            zoom_range=0.,
-                            channel_shift_range=0.,
-                            fill_mode='nearest',
-                            cval=0.,
-                            horizontal_flip=True,
-                            vertical_flip=True,
-                            rescale=None,
-                            preprocessing_function=None,
-                            data_format="channels_last")
+# default settings
+data_aug = ImageDataGenerator(featurewise_center=False, #Boolean. Set input mean to 0 over the dataset, feature-wise.
+                                samplewise_center=False, #Boolean. Set each sample mean to 0.
+                                featurewise_std_normalization=False, #Boolean. Divide inputs by std of the dataset, feature-wise.
+                                samplewise_std_normalization=False, #Boolean. Divide each input by its std.
+                                zca_whitening=False, #epsilon for ZCA whitening. Default is 1e-6.
+                                zca_epsilon=1e-6, #Boolean. Apply ZCA whitening.
+                                rotation_range=0., #Int. Degree range for random rotations.
+                                width_shift_range=0., #Float (fraction of total width). Range for random horizontal shifts.
+                                height_shift_range=0., #Float (fraction of total height). Range for random vertical shifts.
+                                shear_range=0., #Float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
+                                zoom_range=0., #Float or [lower, upper]. Range for random zoom. If a float,  [lower, upper] = [1-zoom_range, 1+zoom_range].
+                                channel_shift_range=0., # Float. Range for random channel shifts.
+                                fill_mode='nearest', #One of {"constant", "nearest", "reflect" or "wrap"}. Points outside the boundaries of the input are filled according to the given mode.
+                                cval=0., #Float or Int. Value used for points outside the boundaries when fill_mode = "constant".
+                                horizontal_flip=False, #Boolean. Randomly flip inputs horizontally.
+                                vertical_flip=False, #Boolean. Randomly flip inputs vertically.
+                                rescale=None, #rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
+                                preprocessing_function=None, #function that will be implied on each input. The function will run before any other modification on it. The function should take one argument: one image (Numpy tensor with rank 3), and should output a Numpy tensor with the same shape.
+                                data_format=K.image_data_format()) # One of {"channels_first", "channels_last"}. "channels_last" mode means that the images should have shape  (samples, height, width, channels), "channels_first" mode means that the images should have shape  (samples, channels, height, width). It defaults to the image_data_format value found in your Keras config file at  ~/.keras/keras.json. If you never set it, then it will be "channels_last".
+
+
+    # options used for experiment
+    # ImageDataGenerator(featurewise_center=False,
+    #                         samplewise_center=False,
+    #                         featurewise_std_normalization=False,
+    #                         samplewise_std_normalization=False,
+    #                         zca_whitening=False,
+    #                         rotation_range=180,
+    #                         width_shift_range=0.,
+    #                         height_shift_range=0.,
+    #                         shear_range=0.,
+    #                         zoom_range=0.,
+    #                         channel_shift_range=0.,
+    #                         fill_mode='nearest',
+    #                         cval=0.,
+    #                         horizontal_flip=True,
+    #                         vertical_flip=True,
+    #                         rescale=None,
+    #                         preprocessing_function=None,
+    #                         data_format="channels_last")
 
 
 
