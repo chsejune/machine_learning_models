@@ -11,6 +11,8 @@ import h5py
 
 ## keras 모델에서 기존에 학습했던 weight을 부분 적으로 로딩하여 사용하고 싶을 경우
 ## 즉 기존 모델에서 일부 layer만 구조 및 조건을 변경하여 사용하고 싶은 경우
+## https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model 참조
+
 
 ## 우선 기존에 학습되었던 모델 설계를 알고 있어야 한다.
 ## 기존 학습 된 설계 모델
@@ -46,6 +48,7 @@ model.summary()
 # 예를들어 첫번째 행의 layer 이름은 "conv2d_1" 이 된다.
 # 해당 이름은 default 로 부여된 이름이며
 # 이름은 사용자가 다른 이름으로 지정 가능하다. (지정 방법은 새로운 모델 설계 부분에서 설명하겠다.)
+
 """
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
@@ -97,8 +100,11 @@ _________________________________________________________________
 # 기존에 사용했던 weight를 기준으로 재학습 하고 싶은 경우
 # (기존에 학습해 놓은 weight는 이미 저장되어 있다고 가정)
 
+# model.load_weight() 함수가 파일로 저장되어 있는 weight를 로딩하는 기준이 Layer의 이름을 따른다. 따라서
+# 아래와 같이 모델을 설계 후, 변경된 부분만 Layer 이름을 새롭게 부여하면 된다.
 
-# 우선 새로운 모델 설계를 해준다.
+
+# 우선 새로운 모델 설계를 해준다. (기존 학습 모델과 기본 구조는 동일)
 model = Sequential()
 
 model.add(Conv2D(32, (3, 3), padding='same', input_shape=(160, 160, 1)))
@@ -117,10 +123,11 @@ model.add(Flatten())
 model.add(Dense(512))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
-model.add(Dense(3, name="new_class")) ## rlwhs
-model.add(Activation('softmax'))
+model.add(Dense(5, name="new_output_dense")) ## output layer의 노드 수만 5로 변경 하면 된다. (변경하면서 layer 의 이름을 "new_output_dense"로 바꿔주었다.
+model.add(Activation('softmax', name="new_output_active")) ## Activation Layer의 이름도 "new_output_active" 로 변경하였다.
 
 
-
-# 기존 모델을 설계 완료 하였으면, 기존 학습 weight를 불러들인다.
-model.load_weights()
+# 신규 모델 설계를 완료 하였으면, 기존 학습 weight를 불러들인다.
+# 여기서 load_weights 함수의 "by_name" 파라미터 옵션을 "True"로 걸어야 한다. (default 는 False 로 되어 있다.)
+model.load_weights("models/sample_weights.hdf5", by_name=True)
+# 이렇게 하여 모델 weight를 불러들이면 layer 이름이 다른 weight 는 불러들이지 않는다.
