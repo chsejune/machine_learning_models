@@ -6,3 +6,7 @@ machine learning models that i have used.
 
 * keras_basic_cnn_used_for_image_data.py
 
+
+**2. Keras related**
+
+* keras_cnn_load_partial_weights.py
