@@ -131,3 +131,20 @@ model.add(Activation('softmax', name="new_output_active")) ## Activation Layer�
 # 여기서 load_weights 함수의 "by_name" 파라미터 옵션을 "True"로 걸어야 한다. (default 는 False 로 되어 있다.)
 model.load_weights("models/sample_weights.hdf5", by_name=True)
 # 이렇게 하여 모델 weight를 불러들이면 layer 이름이 다른 weight 는 불러들이지 않는다.
+"""
+model.load_weights(filepath, by_name)
+Loads all layer weights from a HDF5 save file.
+If by_name is False (default) weights are loaded based on the network's topology, meaning the architecture should be the same as when the weights were saved. Note that layers that don't have weights are not taken into account in the topological ordering, so adding or removing layers is fine as long as they don't have weights.
+If by_name is True, weights are loaded into layers only if they share the same name. This is useful for fine-tuning or transfer-learning models where some of the layers have changed.
+# Arguments
+filepath: String, path to the weights file to load. 
+by_name: Boolean, whether to load weights by name or by topological order.
+# Raises
+ImportError: If h5py is not available.
+"""
+
+## weight를 저장한 파일이 어떠한 이름의 Layer들을 가지고 있는지 출력할 수 있다.
+f = h5py.File("models/sample_weights.hdf5") # hdf5을 읽을 수 있는 h5py library를 이용한다.
+
+## weight 파일이 담고 있는 layer 이름들은 다음과 같이 list 형태로 출력 할 수 있다.
+[k for k in f.keys()]
