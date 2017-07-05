@@ -10,3 +10,4 @@ machine learning models that i have used.
 **2. Keras related**
 
 * keras_cnn_load_partial_weights.py
+* keras_model_save_and_load.py
