@@ -37,6 +37,13 @@ import pandas
 from keras.backend.tensorflow_backend import set_session
 import keras.backend as K
 
+## keras 환경 출력하기
+## check environment
+print(keras.__version__)
+print(K._image_data_format)
+print(K._backend)
+
+
 ## 파라미터 변수 설정
 ### file 저장 시 file 이름에 대한 time stamp 반영하기 위해 설정해줌
 # (코드를 실행하는 시점 기준으로 파일에 반영)
