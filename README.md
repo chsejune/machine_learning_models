@@ -11,3 +11,4 @@ machine learning models that i have used.
 
 * keras_cnn_load_partial_weights.py
 * keras_model_save_and_load.py
+* keras_extract_intermediate_layer_output.py
