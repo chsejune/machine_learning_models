@@ -36,6 +36,10 @@ model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['ac
 # 중간 중간 best 모델 또는 학습 된 weight들을 저장할 수 있는 옵션 기능이다.
 # 먼저 모델을 저장할 파일명을 정의한다. 정의 과정에 저장할 경로도 같이 설정한다.
 model_save_path = "results/SA_pretraining_model_"+time_stamp+"_epoch{epoch:04d}_valL_{val_loss:.5f}.hdf5" # 저장할 파일 이름 설정 (time stamp 이용)
+# {epoch:04d} - 파일명에 현재 epoch 을 반영할 수 있다.
+# {val_loss:.5f} - validation loss 반영이 가능하다. (':' 뒤는 파일명에 반영될 숫자에 대한 포멧팅 형식이다. / 소숫점 다섯째 짜리 까지 반영)
+# {val_acc:.5f} - validation accuracy 반영도 가능하다.
+
 checkpoint = ModelCheckpoint(model_save_path, monitor="val_loss", verbose=1, save_best_only=True, save_weights_only=True)
 
 
