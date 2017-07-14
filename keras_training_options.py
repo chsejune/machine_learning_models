@@ -76,7 +76,7 @@ csv_log = CSVLogger('results/model_log_{}.csv'.format(time_stamp), append=True)
 
 
 ## 설정한 training 옵션(Callback)들을 반영하기 위해선 "callbacks" 파라미터에 list에 변수를 담아 모두 전달해 줘야 한다.
-history = model.fit(trainX, trainY, epochs=20, verbose=2, validation_data=(testX, testY), callbacks=[checkpoint, csv_log])
+history = model.fit(trainX, trainY, epochs=5, verbose=2, validation_data=(testX, testY), callbacks=[checkpoint, csv_log])
 
 
 
