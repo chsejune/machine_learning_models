@@ -42,7 +42,9 @@ l_output = Dense(units=10, activation='softmax')(l_hidden)
 model = Model(inputs=l_input, outputs=l_output)
 
 # 모델 컴파일
-model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['accuracy', 'precision', 'recall', 'fmeasure'])
+model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['accuracy'])
+
+
 
 
 #### training 과정 기록 및 모니터링을 위한 옵션들... (Call backs) ####
@@ -65,7 +67,7 @@ checkpoint = ModelCheckpoint(filepath=model_save_path, monitor="val_loss", verbo
 
 ## 모델 CSV Logger (학습 완료 된 후 판다스를 이용하여 저장할 수 있지만, 모델 중간 중간에 계속 기록할수도 있다.)
 # 기본적으로 컴파일시 metrics 파라미터에 설정했던 수치들이 모두 실시간으로 기록된다.
-csv_log = CSVLogger('results/model_metrics_{}.csv'.format(time_stamp), append=True)
+csv_log = CSVLogger('results/model_log_{}.csv'.format(time_stamp), append=True)
 # parameters #
 # filename: filename of the csv file, e.g. 'run/log.csv'.
 # separator: string used to separate elements in the csv file.
@@ -74,11 +76,12 @@ csv_log = CSVLogger('results/model_metrics_{}.csv'.format(time_stamp), append=Tr
 
 
 ## 설정한 training 옵션(Callback)들을 반영하기 위해선 "callbacks" 파라미터에 list에 변수를 담아 모두 전달해 줘야 한다.
-history = model.fit(trainX, trainY, epochs=20, verbose=2, validation_data=(testX, testY), callbacks=[checkpoint])
+history = model.fit(trainX, trainY, epochs=20, verbose=2, validation_data=(testX, testY), callbacks=[checkpoint, csv_log])
+
 
 
 ## 모델 학습이 완료된 후 history 기록을 하고 싶을 때
 ## 판다스를 이용하여 모델이 학습 완료된 이후, history 변수에 저장된 수치 기록들을 csv 파일로 저장 가능하다.
 # (정확도, loss 등, compile 시 metrics 파라미터에 전달한 값들이 기록된다.)
-pandas.DataFrame(history.history).to_csv("results/model_{}.csv".format(time_stamp))
+pandas.DataFrame(history.history).to_csv("results/model_history_{}.csv".format(time_stamp))
 
