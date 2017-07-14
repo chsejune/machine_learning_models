@@ -5,6 +5,7 @@ __author__ = 'Sejune Cheon'
 ## keras 를 이용한 네트워크 학습 과정 중
 ## 학습 내용 기록, weight 저장, early stop 등
 ## 학습 옵션에 대해 정리해 본다.
+## keras 에선 이를 Callback 이라 한다.
 
 # import library
 from keras.layers import Dense, Input
@@ -28,6 +29,14 @@ model = Model(inputs=l_input, outputs=l_output)
 # 모델 컴파일
 model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['accuracy'])
 
+
+#### training 과정 기록 및 모니터링을 위한 옵션들... (Call backs) ####
+
+## 모델 체크 포인트
+# 중간 중간 best 모델 또는 학습 된 weight들을 저장할 수 있는 옵션 기능이다.
+# 먼저 모델을 저장할 파일명을 정의한다. 정의 과정에 저장할 경로도 같이 설정한다.
+model_save_path = "results/SA_pretraining_model_"+time_stamp+"_epoch{epoch:04d}_valL_{val_loss:.5f}.hdf5" # 저장할 파일 이름 설정 (time stamp 이용)
+checkpoint = ModelCheckpoint(model_save_path, monitor="val_loss", verbose=1, save_best_only=True, save_weights_only=True)
 
 
 
