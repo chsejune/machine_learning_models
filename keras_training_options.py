@@ -11,7 +11,7 @@ __author__ = 'Sejune Cheon'
 import keras
 from keras.layers import Dense, Input
 from keras.models import Model
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, CSVLogger
 from keras.datasets import mnist
 import time
 import numpy as np
@@ -42,7 +42,7 @@ l_output = Dense(units=10, activation='softmax')(l_hidden)
 model = Model(inputs=l_input, outputs=l_output)
 
 # 모델 컴파일
-model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['accuracy'])
+model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['accuracy', 'precision', 'recall', 'fmeasure'])
 
 
 #### training 과정 기록 및 모니터링을 위한 옵션들... (Call backs) ####
@@ -62,7 +62,15 @@ checkpoint = ModelCheckpoint(filepath=model_save_path, monitor="val_loss", verbo
 # verbose: verbosity mode, 0 or 1. (저장 되었음을 알려주는 로그를 출력할지 말지 결정한다.)
 
 
-##
+
+## 모델 CSV Logger (학습 완료 된 후 판다스를 이용하여 저장할 수 있지만, 모델 중간 중간에 계속 기록할수도 있다.)
+# 기본적으로 컴파일시 metrics 파라미터에 설정했던 수치들이 모두 실시간으로 기록된다.
+csv_log = CSVLogger('results/model_metrics_{}.csv'.format(time_stamp), append=True)
+# parameters #
+# filename: filename of the csv file, e.g. 'run/log.csv'.
+# separator: string used to separate elements in the csv file.
+# append: True: append if file exists (useful for continuing training). False: overwrite existing file,
+
 
 
 ## 설정한 training 옵션(Callback)들을 반영하기 위해선 "callbacks" 파라미터에 list에 변수를 담아 모두 전달해 줘야 한다.
