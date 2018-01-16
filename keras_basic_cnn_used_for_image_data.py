@@ -77,8 +77,9 @@ val_x, test_x, val_y, test_y  = train_test_split(test_x, test_y, test_size=0.5)
 ## 단, PC에 GPU가 2개 이상 있는 경우에 해당
 
 config = tf.ConfigProto() #tensorflow의 configuration 을 위한 class 할당
-# config.gpu_options.per_process_gpu_memory_fraction = 0.3  # 설정시 1개의 GPU에 대해 할당할 메모리 비율을 설정할 수 있다.
+config.gpu_options.per_process_gpu_memory_fraction = 0.3  # 설정시 1개의 GPU에 대해 할당할 메모리 비율을 설정할 수 있다.
 config.gpu_options.visible_device_list="0" # 할당할 GPU 번호 설정, 통상적으로 0 부터 시작한다.
+config.gpu_options.allow_growth = True # 처음 부터 GPU 메모리 할당을 전부 하는 것이 아니라, 필요에 따라서 메모리 할당량을 조절할 수 있다.
 
 set_session(tf.Session(config=config)) # keras 함수로, keras backend가 config 변수가 가지고 있는 설정을 사용할 수 있도록 한다.
 
