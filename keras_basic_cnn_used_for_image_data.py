@@ -1,4 +1,5 @@
 __author__ = 'Sejune Cheon'
+__version__ = 1.0
 
 ## 개발환경 Python3.5
 
@@ -36,6 +37,8 @@ import time
 import pandas
 from keras.backend.tensorflow_backend import set_session
 import keras.backend as K
+from keras.utils import plot_model
+
 
 ## keras 환경 출력하기
 ## check environment
@@ -122,7 +125,11 @@ model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy
 # loss function은 다중 분류 모델이기 때문에 'categorical_crossentropy'를 사용하였다.
 # metrics 파라미터에는 'accuracy', ... 등을 전달하여 기록하고자 하는 수치를 지정할 수 있다.
 
-
+# 설계된 모델 visualization, 그래프 형태로 그리기
+plot_model(model, to_file="results/model.png")
+# 사용 가능 파라미터:
+# show_shapes: (defaults to False) controls whether output shapes are shown in the graph.
+# show_layer_names: (defaults to True) controls whether layer names are shown in the graph.
 
 ## best model 학습 과정 중에 저장
 model_save_path = "results2/model_"+time_stamp+"_epoch{epoch:04d}_valL_{val_loss:.5f}_valA_{val_acc:.5f}.hdf5" # 저장할 파일 이름 설정 (time stamp 이용)
